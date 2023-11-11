@@ -11,7 +11,7 @@ set(CMAKE_OBJCOPY arm-none-eabi-objcopy)
 set(PROCESSOR_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard")
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${PROCESSOR_FLAGS} -Wall -Wextra -g")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${PROCESSOR_FLAGS} -Wall -Wextra -g -O0")
 
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F411VET6.ld)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -specs=nosys.specs -T${LINKER_SCRIPT}")
@@ -19,7 +19,8 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -specs=nosys.specs -T${LIN
 
 file(GLOB_RECURSE SOURCES "src/*.c"
                           "src/*.s"
-                          "src/cmsis/*.c")
+                          "src/cmsis/*.c"
+                          "src/drivers/*.c")
 
 include_directories(src)
 

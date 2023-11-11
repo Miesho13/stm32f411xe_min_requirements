@@ -12,7 +12,12 @@
 #include "cmsis/stm32f4xx.h"
 #include "cmsis/system_stm32f4xx.h"
 
+#include "driver/rcc.h"
+
 void system_init() {
+    SystemInit();
+    RCC_Init();
+
 
 }
 
@@ -27,6 +32,7 @@ int main(int argc, char const *argv[]) {
     
     system_init();
     while (true) {
+        SystemCoreClock;
         system_loop();
     }
 }
