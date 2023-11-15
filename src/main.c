@@ -18,7 +18,6 @@ void system_init() {
     SystemInit();
     RCC_Init();
 
-
 }
 
 void system_loop() {
