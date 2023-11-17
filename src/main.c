@@ -15,8 +15,8 @@
 #include "driver/rcc.h"
 
 void system_init() {
-    SystemInit();
-    RCC_Init();
+    (void)SystemInit();
+    (void)RCC_Init();
 
 }
 
@@ -29,9 +29,8 @@ int main(int argc, char const *argv[]) {
     (void)argc;
     (void)argv;
     
-    system_init();
+    (void)system_init();
     while (true) {
-        SystemCoreClock;
-        system_loop();
+        (void)system_loop();
     }
 }
