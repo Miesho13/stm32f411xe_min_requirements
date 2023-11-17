@@ -155,3 +155,47 @@ void timers_TIMx_init(TIMER_ID tid,
             break;
     }
 }
+
+htimer_t timers_TIMx_facotry(TIMER_ID tid) {
+    switch (tid) {
+        case TIMER_ID_1:
+            return TIM_HARD1;
+            break;
+
+        
+        case TIMER_ID_2:
+            return TIM_HARD2;
+            break;
+
+        
+        case TIMER_ID_3:
+            return TIM_HARD3;
+            break;
+
+
+        case TIMER_ID_4:
+            return TIM_HARD4;
+            break;
+
+        
+        case TIMER_ID_5:
+            return TIM_HARD5;
+            break;
+        
+        
+        case TIMER_ID_9:
+            return TIM_HARD9;
+            break;
+
+        
+        case TIMER_ID_10:
+            return TIM_HARD10;
+            break;
+
+        
+        case TIMER_ID_11:
+            return TIM_HARD11;
+            break;  
+    }
+
+}
