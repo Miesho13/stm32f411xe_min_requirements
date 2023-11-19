@@ -8,14 +8,14 @@
 
 // HARD DEFINE TIMERS
 htimer_t timres_handler[TIMER_COUNT] = {
-    {TIM1, 0, 0, TIMER_ID_1, TIMER_OFF},
-    {TIM2, 0, 0, TIMER_ID_2, TIMER_OFF},
-    {TIM3, 0, 0, TIMER_ID_3, TIMER_OFF},
-    {TIM4, 0, 0, TIMER_ID_4, TIMER_OFF},
-    {TIM5, 0, 0, TIMER_ID_5, TIMER_OFF},
-    {TIM9, 0, 0, TIMER_ID_9, TIMER_OFF},
-    {TIM10, 0, 0, TIMER_ID_10, TIMER_OFF},
-    {TIM11, 0, 0, TIMER_ID_11, TIMER_OFF},
+    { TIM1, 0, 0, TIMER_ID_1, TIMER_OFF },
+    { TIM2, 0, 0, TIMER_ID_2, TIMER_OFF },
+    { TIM3, 0, 0, TIMER_ID_3, TIMER_OFF },
+    { TIM4, 0, 0, TIMER_ID_4, TIMER_OFF },
+    { TIM5, 0, 0, TIMER_ID_5, TIMER_OFF },
+    { TIM9, 0, 0, TIMER_ID_9, TIMER_OFF },
+    { TIM10, 0, 0, TIMER_ID_10, TIMER_OFF },
+    { TIM11, 0, 0, TIMER_ID_11, TIMER_OFF },
 };
 
 
@@ -27,6 +27,57 @@ htimer_t timres_handler[TIMER_COUNT] = {
 #define TIM_HARD9  timres_handler[5]
 #define TIM_HARD10 timres_handler[6]
 #define TIM_HARD11 timres_handler[7]
+
+
+
+void __attribute__((weak)) TIM1_UP_TIM10_IRQHandler(void) {
+    if (TIM1->SR & TIM_SR_UIF) {
+        TIM1->SR &= ~TIM_SR_UIF;
+
+        // Your code here 
+    }
+}
+
+
+
+void __attribute__((weak)) TIM2_IRQHandler(void) {
+    if (TIM2->SR & TIM_SR_UIF) {
+        TIM2->SR &= ~TIM_SR_UIF;
+
+        // Your code here 
+    }
+}
+
+
+
+void __attribute__((weak)) TIM3_IRQHandler(void) {
+    if (TIM3->SR & TIM_SR_UIF) {
+        TIM3->SR &= ~TIM_SR_UIF;
+
+        // Your code here 
+    }
+}
+
+
+
+void __attribute__((weak)) TIM4_IRQHandler(void) {
+    if (TIM4->SR & TIM_SR_UIF) {
+        TIM4->SR &= ~TIM_SR_UIF;
+
+        // Your code here 
+    }
+}
+
+
+
+void __attribute__((weak)) TIM5_IRQHandler(void) {
+    if (TIM5->SR & TIM_SR_UIF) {
+        TIM5->SR &= ~TIM_SR_UIF;
+
+        // Your code here 
+    }
+}
+
 
 
 /// @brief Initialize timer
@@ -155,8 +206,72 @@ void timers_TIMx_init(TIMERS_ID tid,
 
             TIM_HARD11.instance->CR1 |= TIM_CR1_CEN;
             break;
+        case TIMER_COUNT:
+            break;
     }
 }
+
+void timers_TIMx_IRQinit(TIMERS_ID tid,
+                         uint32_t prescaler,
+                         uint32_t period,
+                         uint32_t priority) {
+
+    (void)timers_TIMx_init(tid, prescaler, period);
+
+    switch (tid) {
+        case TIMER_ID_1:
+            NVIC_SetPriority(TIM1_UP_TIM10_IRQn, priority);
+            NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
+            break;
+
+
+        case TIMER_ID_2:
+            NVIC_SetPriority(TIM2_IRQn, priority);
+            NVIC_EnableIRQ(TIM2_IRQn);
+            break;
+        
+
+        case TIMER_ID_3:
+            NVIC_SetPriority(TIM3_IRQn, priority);
+            NVIC_EnableIRQ(TIM3_IRQn);
+            break;
+
+
+        case TIMER_ID_4:
+            NVIC_SetPriority(TIM4_IRQn, priority);
+            NVIC_EnableIRQ(TIM4_IRQn);
+            break;
+
+
+        case TIMER_ID_5:
+            NVIC_SetPriority(TIM5_IRQn, priority);
+            NVIC_EnableIRQ(TIM5_IRQn);
+            break;
+
+
+        case TIMER_ID_9:
+            NVIC_SetPriority(TIM1_BRK_TIM9_IRQn, priority);
+            NVIC_EnableIRQ(TIM1_BRK_TIM9_IRQn);
+            break;
+
+
+        case TIMER_ID_10:
+            NVIC_SetPriority(TIM1_UP_TIM10_IRQn, priority);
+            NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
+            break; 
+        
+
+        case TIMER_ID_11:
+            NVIC_SetPriority(TIM1_TRG_COM_TIM11_IRQn, priority);
+            NVIC_EnableIRQ(TIM1_TRG_COM_TIM11_IRQn);
+            break;
+
+        case TIMER_COUNT:
+            break;
+    }
+}
+
+
 
 htimer_t* timers_TIMx_facotry(TIMERS_ID tid) {
     switch (tid) {
@@ -198,6 +313,9 @@ htimer_t* timers_TIMx_facotry(TIMERS_ID tid) {
         case TIMER_ID_11:
             return &TIM_HARD11;
             break;  
+
+        case TIMER_COUNT:
+            break;
     }
 
     return NULL;

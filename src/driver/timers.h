@@ -23,14 +23,6 @@ typedef enum {
 
 
 typedef enum {
-    TIMER_INTERRUPT_OFF = 0,
-    TIMER_INTERRUPT_ON,
-
-} TIMER_INTERRUPT;
-
-
-
-typedef enum {
     TIMER_ON = 0,
     TIMER_OFF,
 
@@ -44,16 +36,19 @@ typedef struct {
     uint32_t period;
     TIMERS_ID timer_id;
     TIMER_STATE state;
-    TIMER_INTERRUPT enable;
-
 } htimer_t;
 
 
 
 void timers_TIMx_init(TIMERS_ID tid, 
-                      
                       uint32_t prescaler, 
                       uint32_t period);
+                      
+void timers_TIMx_IRQinit(TIMERS_ID tid,
+                         uint32_t prescaler,
+                         uint32_t period,
+                         uint32_t priority);
+
 htimer_t* timers_TIMx_facotry(TIMERS_ID tid);
 void timers_TIMx_start(htimer_t *timer);
 void timers_TIMx_stop(htimer_t *timer);
