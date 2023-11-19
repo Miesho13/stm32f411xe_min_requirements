@@ -18,24 +18,46 @@ typedef enum {
     TIMER_ID_11,
 
     TIMER_COUNT,
-} TIMER_ID;
+} TIMERS_ID;
+
+
+
+typedef enum {
+    TIMER_INTERRUPT_OFF = 0,
+    TIMER_INTERRUPT_ON,
+
+} TIMER_INTERRUPT;
+
+
+
+typedef enum {
+    TIMER_ON = 0,
+    TIMER_OFF,
+
+} TIMER_STATE;
+
+
 
 typedef struct {
     TIM_TypeDef *instance;
-    TIMER_ID timer_id;
     uint32_t prescaler;
     uint32_t period;
-    
+    TIMERS_ID timer_id;
+    TIMER_STATE state;
+    TIMER_INTERRUPT enable;
+
 } htimer_t;
 
 
 
-void timers_TIMx_init(TIMER_ID tid, 
+void timers_TIMx_init(TIMERS_ID tid, 
+                      
                       uint32_t prescaler, 
                       uint32_t period);
-
-htimer_t timers_TIMx_facotry(TIMER_ID tid);
-
-
+htimer_t* timers_TIMx_facotry(TIMERS_ID tid);
+void timers_TIMx_start(htimer_t *timer);
+void timers_TIMx_stop(htimer_t *timer);
+void timers_TIMx_reset(htimer_t *timer);
+uint32_t timers_TIMx_elapsed(htimer_t *timer);
 
 #endif

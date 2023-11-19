@@ -7,7 +7,17 @@
 #include "timers.h"
 
 // HARD DEFINE TIMERS
-htimer_t timres_handler[TIMER_COUNT]; 
+htimer_t timres_handler[TIMER_COUNT] = {
+    {TIM1, 0, 0, TIMER_ID_1, TIMER_OFF},
+    {TIM2, 0, 0, TIMER_ID_2, TIMER_OFF},
+    {TIM3, 0, 0, TIMER_ID_3, TIMER_OFF},
+    {TIM4, 0, 0, TIMER_ID_4, TIMER_OFF},
+    {TIM5, 0, 0, TIMER_ID_5, TIMER_OFF},
+    {TIM9, 0, 0, TIMER_ID_9, TIMER_OFF},
+    {TIM10, 0, 0, TIMER_ID_10, TIMER_OFF},
+    {TIM11, 0, 0, TIMER_ID_11, TIMER_OFF},
+};
+
 
 #define TIM_HARD1  timres_handler[0]
 #define TIM_HARD2  timres_handler[1]
@@ -23,13 +33,12 @@ htimer_t timres_handler[TIMER_COUNT];
 /// @param tid Timer ID 
 /// @param prescaler Prescaler value
 /// @param period Period value 
-void timers_TIMx_init(TIMER_ID tid, 
+void timers_TIMx_init(TIMERS_ID tid, 
                       uint32_t prescaler, 
                       uint32_t period) {
     switch (tid) {
         case TIMER_ID_1:
-            TIM_HARD1.instance = TIM1;
-            TIM_HARD1.timer_id = TIMER_ID_1;
+            TIM_HARD1.state = TIMER_ON;
 
             TIM_HARD1.prescaler = prescaler;
             TIM_HARD1.period = period;
@@ -44,9 +53,8 @@ void timers_TIMx_init(TIMER_ID tid,
         
         
         case TIMER_ID_2:
-            TIM_HARD2.instance = TIM2;
-            TIM_HARD2.timer_id = TIMER_ID_2;
-
+            TIM_HARD2.state = TIMER_ON;
+            
             TIM_HARD2.prescaler = prescaler;
             TIM_HARD2.period = period;
 
@@ -60,8 +68,7 @@ void timers_TIMx_init(TIMER_ID tid,
 
 
         case TIMER_ID_3:
-            TIM_HARD3.instance = TIM3;
-            TIM_HARD3.timer_id = TIMER_ID_3;
+            TIM_HARD3.state = TIMER_ON;
 
             TIM_HARD3.prescaler = prescaler;
             TIM_HARD3.period = period;
@@ -76,8 +83,7 @@ void timers_TIMx_init(TIMER_ID tid,
 
 
         case TIMER_ID_4:
-            TIM_HARD4.instance = TIM4;
-            TIM_HARD4.timer_id = TIMER_ID_4;
+            TIM_HARD4.state = TIMER_ON;
 
             TIM_HARD4.prescaler = prescaler;
             TIM_HARD4.period = period;
@@ -92,8 +98,7 @@ void timers_TIMx_init(TIMER_ID tid,
 
 
         case TIMER_ID_5:
-            TIM_HARD5.instance = TIM5;
-            TIM_HARD5.timer_id = TIMER_ID_5;
+            TIM_HARD5.state = TIMER_ON;
 
             TIM_HARD5.prescaler = prescaler;
             TIM_HARD5.period = period;
@@ -108,8 +113,7 @@ void timers_TIMx_init(TIMER_ID tid,
 
 
         case TIMER_ID_9:
-            TIM_HARD9.instance = TIM9;
-            TIM_HARD9.timer_id = TIMER_ID_9;
+            TIM_HARD9.state = TIMER_ON;
 
             TIM_HARD9.prescaler = prescaler;
             TIM_HARD9.period = period;
@@ -124,8 +128,7 @@ void timers_TIMx_init(TIMER_ID tid,
 
 
         case TIMER_ID_10:
-            TIM_HARD10.instance = TIM10;
-            TIM_HARD10.timer_id = TIMER_ID_10;
+            TIM_HARD10.state = TIMER_ON;
 
             TIM_HARD10.prescaler = prescaler;
             TIM_HARD10.period = period;
@@ -140,8 +143,7 @@ void timers_TIMx_init(TIMER_ID tid,
         
 
         case TIMER_ID_11:
-            TIM_HARD11.instance = TIM11;
-            TIM_HARD11.timer_id = TIMER_ID_11;
+            TIM_HARD11.state = TIMER_ON;
 
             TIM_HARD11.prescaler = prescaler;
             TIM_HARD11.period = period;
@@ -156,46 +158,83 @@ void timers_TIMx_init(TIMER_ID tid,
     }
 }
 
-htimer_t timers_TIMx_facotry(TIMER_ID tid) {
+htimer_t* timers_TIMx_facotry(TIMERS_ID tid) {
     switch (tid) {
         case TIMER_ID_1:
-            return TIM_HARD1;
+            return &TIM_HARD1;
             break;
 
         
         case TIMER_ID_2:
-            return TIM_HARD2;
+            return &TIM_HARD2;
             break;
 
         
         case TIMER_ID_3:
-            return TIM_HARD3;
+            return &TIM_HARD3;
             break;
 
 
         case TIMER_ID_4:
-            return TIM_HARD4;
+            return &TIM_HARD4;
             break;
 
         
         case TIMER_ID_5:
-            return TIM_HARD5;
+            return &TIM_HARD5;
             break;
         
         
         case TIMER_ID_9:
-            return TIM_HARD9;
+            return &TIM_HARD9;
             break;
 
         
         case TIMER_ID_10:
-            return TIM_HARD10;
+            return &TIM_HARD10;
             break;
 
         
         case TIMER_ID_11:
-            return TIM_HARD11;
+            return &TIM_HARD11;
             break;  
     }
 
+    return NULL;
 }
+
+
+
+/// @brief Start timer 
+/// @param timer is a pointer to a ctx strcut for hardware timer  
+void timers_TIMx_start(htimer_t *timer) {
+    timer->instance->CR1 |= TIM_CR1_CEN;
+}
+
+
+
+/// @brief Stop timer 
+/// @param timer is a pointer to a ctx strcut for hardware timer  
+void timers_TIMx_stop(htimer_t *timer) {
+    timer->instance->CR1 &= ~TIM_CR1_CEN;
+}
+
+
+
+/// @brief Reset timer 
+/// @param timer is a pointer to a ctx strcut for hardware timer  
+void timers_TIMx_reset(htimer_t *timer) {
+    timer->instance->CNT = 0;
+}
+
+
+/// @brief Get elapsed time from timer
+/// @param timer 
+/// @return Elapsed time
+uint32_t timers_TIMx_elapsed(htimer_t *timer) {
+    return timer->instance->CNT;
+}
+
+
+
+
