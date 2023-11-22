@@ -40,7 +40,7 @@ void __attribute__((weak)) TIM1_UP_TIM10_IRQHandler(void) {
 
 
 
-void __attribute__((weak)) TIM2_IRQHandler(void) {
+void TIM2_IRQHandler(void) {
     if (TIM2->SR & TIM_SR_UIF) {
         TIM2->SR &= ~TIM_SR_UIF;
 
