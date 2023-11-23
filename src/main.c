@@ -14,6 +14,8 @@
 
 #include "driver/rcc.h"
 #include "driver/timers.h"
+
+
 void system_init() {
     // Cortex-M4F core configuration
     (void)SystemInit();
@@ -21,12 +23,10 @@ void system_init() {
     // set main clock to 100MHz
     (void)RCC_Init();
 
-    // initialize timers 
-    (void)timers_TIMx_init(TIMER_ID_2, 10000, 10000);
 }
 
-void system_loop() {
-    uint32_t elapsed = timers_TIMx_elapsed(timers_TIMx_facotry(TIMER_ID_2)); 
+void system_loop() { 
+
 }
 
 
