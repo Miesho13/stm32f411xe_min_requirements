@@ -1,7 +1,7 @@
 /**
  * @brief GPIO driver
  * 
- * @author mryzewskii@gmail.com
+ * @author marcin.ryzewskii@gmail.com
  * @date 2023-11-22
 */
 
@@ -19,8 +19,6 @@ void GPIO_Init(GPIO_InitTypeDef *GPIO_InitStruct) {
     uint32_t pinpos = 0x00;
     uint32_t pos = 0x00;
     uint32_t currentpin = 0x00;
-    uint32_t tmpreg = 0x00; 
-    uint32_t pinmask = 0x00;
 
     /* ------------------------- Configure the port pins ---------------- */
     /*-- GPIO Mode Configuration --*/
@@ -52,7 +50,6 @@ void GPIO_Init(GPIO_InitTypeDef *GPIO_InitStruct) {
 /// @param GPIO_Pin 
 /// @return 
 GPIO_PinState GPIO_ReadPin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin) {
-
     GPIO_PinState bitstatus = GPIO_PIN_RESET;
 
     if ( (GPIOx->IDR & GPIO_Pin) != (uint32_t)GPIO_PIN_RESET ) {
@@ -62,4 +59,24 @@ GPIO_PinState GPIO_ReadPin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin) {
     }
 
     return bitstatus;
+}
+
+
+/// @brief Toggles the specified GPIO pin. 
+/// @param GPIOx  
+/// @param GPIO_Pin 
+/// @param PinState 
+void GPIO_WritePin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState) {
+    if (PinState != GPIO_PIN_RESET) {
+        GPIOx->BSRR = GPIO_Pin;
+    } else {
+        GPIOx->BSRR = (uint32_t)GPIO_Pin << 16;
+    }
+}
+
+/// @brief 
+/// @param GPIOx 
+/// @param GPIO_Pin 
+void GPIO_TogglePin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin) {
+    GPIOx->ODR ^= GPIO_Pin;
 }

@@ -1,12 +1,30 @@
 #ifndef __GPIO_H__
 #define __GPIO_H__
 
-#include "stm32f4xx.h"
+#include "../cmsis/stm32f4xx.h"
+#include "../cmsis/system_stm32f4xx.h"
 
 
-// Define GPIO Port 
+// MARCRO DEFINE START
+// Define GPIO Port/Pin A 
+#define GPIO_PORT_A GPIOA
 
+// Define GPIO Port/Pin B
+#define GPIO_PORT_B GPIOB
 
+// Define GPIO Port/Pin C
+#define GPIO_PORT_C GPIOC
+
+// Define GPIO Port/Pin D
+#define GPIO_PORT_D GPIOD 
+
+// Define GPIO Port/Pin E
+#define GPIO_PORT_E GPIOE
+
+// Define GPIO Port/Pin F
+#define GPIO_PORT_H GPIOH
+
+// MACRO GPIO END
 typedef enum {
     GPIO_PIN_RESET = 0,
     GPIO_PIN_SET
