@@ -7,9 +7,6 @@
 
 #include "gpio.h"
 
-#include <assert.h>
-
-
 
 /// @brief Initializes the GPIOx peripheral according to the specified parameters 
 ///        in the GPIO_InitStruct.
@@ -45,6 +42,7 @@ void GPIO_Init(GPIO_InitTypeDef *GPIO_InitStruct) {
 
 }
 
+
 /// @brief 
 /// @param GPIOx 
 /// @param GPIO_Pin 
@@ -73,6 +71,7 @@ void GPIO_WritePin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinStat
         GPIOx->BSRR = (uint32_t)GPIO_Pin << 16;
     }
 }
+
 
 /// @brief 
 /// @param GPIOx 
