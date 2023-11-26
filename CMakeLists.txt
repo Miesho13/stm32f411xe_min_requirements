@@ -20,7 +20,8 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -specs=nosys.specs -T${LIN
 file(GLOB_RECURSE SOURCES "src/*.c"
                           "src/*.s"
                           "src/cmsis/*.c"
-                          "src/drivers/*.c")
+                          "src/drivers/*.c"
+                          "src/system/*.c")
 
 include_directories(src)
 
