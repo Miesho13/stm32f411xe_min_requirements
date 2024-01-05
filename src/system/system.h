@@ -5,10 +5,9 @@
 
 #include <stdint.h>
 #include "../driver/timers.h"
+#include "../cmsis/stm32f4xx.h"
 
-
-
-void __deley(uint32_t count);
-void __delay_ms(uint32_t ms);
+void system_function_init(void);
+void system_delay_ms(uint32_t ms);
 
 #endif // __SYTSTEM__H__
