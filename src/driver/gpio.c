@@ -6,6 +6,7 @@
 */
 
 #include "gpio.h"
+#include <assert.h>
 
 void gpio_init(gpio_init_t hgpio) {
     // pins =  (1 << 1) | (1 << 3) | (1 << 14)
@@ -18,3 +19,19 @@ void gpio_init(gpio_init_t hgpio) {
         }
     }
 }
+
+
+void gpio_togle(GPIO_TypeDef *hgpio, uint16_t pins) {
+    hgpio->ODR ^= pins;
+}
+
+void gpio_write(GPIO_TypeDef *hgpio, uint32_t pins, uint8_t state) {
+    if (state == 1) {
+        hgpio->BSRR |= pins;
+    }
+    if (state == 0) {
+        hgpio->BSRR |= pins << 16;
+    }
+}
+
+void gpio_read();

@@ -47,5 +47,8 @@ typedef struct {
 } gpio_init_t;
 
 void gpio_init(gpio_init_t hgpio);
+void gpio_togle(GPIO_TypeDef *hgpio, uint16_t pins);
+void gpio_write(GPIO_TypeDef *hgpio, uint32_t pins, uint8_t state); 
+
 
 #endif // __GPIO_H__
