@@ -19,10 +19,7 @@
 #include "driver/rcc.h"
 #include "system/system.h"
 #include "driver/gpio.h"
-#include "driver/timers.h"
-#include "driver/usart.h"
 
-#include "c_util/tester.h"
 
 
 void gpio_startup() {
