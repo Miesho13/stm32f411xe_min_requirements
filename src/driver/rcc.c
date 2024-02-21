@@ -13,7 +13,7 @@
 #include "../cmsis/system_stm32f4xx.h"
 
 
-void rcc_init(void) {
+void rcc_init_100hz(void) {
     // ensure for HSI is rdy
     RCC->CR |= RCC_CR_HSION;
     while (((RCC->CR & RCC_CR_HSIRDY) >> 1) != 1) { }
@@ -22,11 +22,19 @@ void rcc_init(void) {
     RCC->CR |= RCC_CR_HSEON;
     while (((RCC->CR & RCC_CR_HSERDY) >> 17) != 1) { }
     
+    RCC->PLLCFGR = (1 << 22) | (8 << 0) | (100 << 6) | (0 << 16);
+
+    RCC->CR |= RCC_CR_PLLON;
+    while(!(RCC->CR & RCC_CR_PLLRDY)) { }
+    FLASH->ACR = FLASH_ACR_LATENCY_3WS;
+
     RCC->CFGR &= ~(0b1111 << 4);
-    RCC->CFGR &= ~(0b11 << 0);
-    RCC->CFGR |=  (0b01 << 0);
+
+    RCC->CFGR &= ~RCC_CFGR_PPRE1; 
+    RCC->CFGR &= ~RCC_CFGR_PPRE2; 
     
-    while (((RCC->CFGR & (0b11 << 2)) >> 2) != 0b01 ) { }
+    RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_SW_Msk) | RCC_CFGR_SW_PLL;
+    while ((RCC->CFGR & RCC_CFGR_SWS_Msk) != RCC_CFGR_SWS_PLL);
     
     SystemCoreClockUpdate();
 }

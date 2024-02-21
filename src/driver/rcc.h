@@ -13,7 +13,7 @@
 #ifndef _RCC_H_
 #define _RCC_H_
 
-void rcc_init(void);
+void rcc_init_100hz(void);
 
 
 #endif
