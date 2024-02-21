@@ -11,7 +11,7 @@
  * and helper functions to facilitate testing.
  */
 
-#include "tester.h"
+#include "tracer.h"
 
 
 void trace_init(TIM_TypeDef *htim, uint32_t psc) {
