@@ -17,7 +17,6 @@ void timers_init(timer_init_t *htim) {
     htim->instance->CR2 |= htim->CR2; 
     htim->instance->ARR = htim->period;
     htim->instance->PSC = htim->prescaler;
-
     htim->instance->CR1 |= TIM_CR1_CEN;
 }
 
